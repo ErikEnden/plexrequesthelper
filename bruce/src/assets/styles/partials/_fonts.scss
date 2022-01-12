@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500&display=swap');
+
+* {
+    font-family: 'Work Sans', sans-serif;
+    @apply text-white;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 500;
+}
+h1 {
+    font-size: 56px;
+}
+h2 {
+    font-size: 40px;
+}
+h3 {
+    font-size: 28px;
+}
+h4 {
+    font-size: 20px;
+}
+p {
+    font-size: 16px;
+}
+a {
+    @apply text-accent;
+    &:hover {
+        @apply underline;
+    }
+}

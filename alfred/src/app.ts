@@ -5,6 +5,7 @@ import Router from './router'
 const express =  require('express');
 const app = express();
 const argon2 = require('argon2')
+require('dotenv').config()
 
 const connectionOptions: ConnectionOptions = {
     type: "sqlite",
@@ -17,9 +18,9 @@ const connectionOptions: ConnectionOptions = {
 const generateTestUser = async () =>  {
     let user = new User()
 
-    user.name = "admin"
-    user.email = "default@admin.com"
-    user.password = await argon2.hash('testpassword')
+    user.name = process.env.TESTUSER_NAME
+    user.email = process.env.TESTUSER_EMAIL
+    user.password = await argon2.hash(process.env.TESTUSER_PASSWORD)
     user.isAdmin = true
     
     return user
