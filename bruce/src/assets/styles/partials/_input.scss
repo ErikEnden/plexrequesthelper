@@ -4,4 +4,7 @@ input {
         outline: none;
         @apply ring-2 ring-accent;
     }
+    &::placeholder {
+        @apply text-white-dark;
+    }
 }
