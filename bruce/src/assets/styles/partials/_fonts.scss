@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500&display=swap');
 
-* {
+html {
     font-family: 'Work Sans', sans-serif;
     @apply text-white;
+    font-size: 16px;
 }
-
 h1, h2, h3, h4 {
     font-weight: 500;
 }

@@ -1,6 +1,6 @@
 <template>
   <navbar class="mb-4" />
-  <router-view />
+  <router-view class="px-6" />
 </template>
 
 <script>

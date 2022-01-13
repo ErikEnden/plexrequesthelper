@@ -1,8 +1,12 @@
 <template>
-  <nav class="flex py-4 justify-center bg-grey-200">
-    <router-link to="/">Home</router-link>
-    <span class="mx-3">|</span>
-    <router-link to="/about">About</router-link>
+  <nav>
+    <div class="logo">Plex Request Helper</div>
+    <div class="search">
+      <input />
+    </div>
+    <div class="user-menu">
+      <button class="btn btn-accent">Login</button>
+    </div>
   </nav>
 </template>
 

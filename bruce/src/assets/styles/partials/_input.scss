@@ -1,0 +1,7 @@
+input {
+    @apply rounded bg-grey-light px-1 py-2 duration-100;
+    &:focus {
+        outline: none;
+        @apply ring-2 ring-accent;
+    }
+}

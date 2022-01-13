@@ -4,9 +4,12 @@
 @import 'tailwindcss/utilities';
 
 @import 'partials/fonts';
+@import 'partials/navbar';
+@import 'partials/buttons';
+@import 'partials/input';
 
 html {
-    @apply bg-grey-100;
+    @apply bg-grey-dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

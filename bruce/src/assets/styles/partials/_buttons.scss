@@ -1,0 +1,9 @@
+.btn {
+    @apply w-24 h-8 items-center justify-center flex rounded-sm duration-100;
+    &.btn-accent {
+        @apply bg-accent;
+        &:hover {
+            @apply bg-grey ring-2 ring-accent text-accent;
+        }
+    }
+}
