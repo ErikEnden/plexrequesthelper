@@ -1,15 +1,39 @@
 <template>
-  <navbar class="mb-4" />
-  <router-view class="px-6" />
+  <navbar v-if="user" />
+  <div
+    class="flex w-full px-6 py-4"
+    :class="[user ? 'content' : 'content-full']"
+  >
+    <sidebar v-if="user" />
+    <router-view />
+  </div>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     Navbar,
+    Sidebar,
+  },
+  computed: {
+    ...mapGetters({ user: "auth/getUser" }),
   },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.content-full {
+  @apply h-screen w-screen;
+}
+.content {
+  height: calc(100vh - 4rem);
+  @apply w-5/6;
+  .content-page {
+    @apply bg-grey w-full rounded flex flex-col px-3 py-2;
+    overflow-y: scroll;
+  }
+}
+</style>

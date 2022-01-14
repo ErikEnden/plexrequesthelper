@@ -5,7 +5,7 @@
       <input placeholder="🔎 Search" class="w-96" />
     </div>
     <div class="user-menu">
-      <button class="btn btn-accent">Login</button>
+      <div class="rounded-full bg-grey-light h-12 w-12"></div>
     </div>
   </nav>
 </template>
@@ -14,4 +14,17 @@
 export default {};
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+nav {
+  @apply h-16 flex items-center justify-between px-6 bg-grey;
+  .logo {
+    @apply w-56 flex items-center;
+  }
+  .search {
+    @apply flex flex-grow justify-center items-center;
+  }
+  .user-menu {
+    @apply w-56 flex justify-end items-center;
+  }
+}
+</style>

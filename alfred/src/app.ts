@@ -5,6 +5,9 @@ import Router from './router'
 const express =  require('express');
 const app = express();
 const argon2 = require('argon2')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+
 require('dotenv').config()
 
 const connectionOptions: ConnectionOptions = {
@@ -28,6 +31,8 @@ const generateTestUser = async () =>  {
 
 const main = async () => {
     const connection = await createConnection(connectionOptions)
+    app.use(cors());
+    app.use(bodyParser())
     app.use(Router);
 
     const testUser = await connection.manager.find(User, {email: 'default@admin.com'})
