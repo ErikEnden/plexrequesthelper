@@ -12,6 +12,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import axios from "axios";
 import { mapGetters } from "vuex";
 
 export default {
@@ -21,6 +22,26 @@ export default {
   },
   computed: {
     ...mapGetters({ user: "auth/getUser" }),
+  },
+  mounted() {
+    let token = localStorage.getItem("access");
+    if (token) {
+      axios({
+        url: `${process.env.VUE_APP_API_URL}/verify`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => {
+        if (res.status === 200) {
+          this.$store.dispatch("auth/useExistingToken").then(() => {
+            this.$router.push("/dashboard");
+          });
+        }
+      });
+    } else {
+      this.$store.dispatch("auth/logout");
+    }
   },
 };
 </script>

@@ -8,7 +8,11 @@ export const auth = {
   mutations: {
     login(state, user) {
       state.user = user;
-      localStorage.set("access", user);
+      localStorage.setItem("access", user.access);
+    },
+    logout(state) {
+      state.user = null;
+      localStorage.removeItem("access");
     },
   },
   actions: {
@@ -33,6 +37,13 @@ export const auth = {
         }
       });
     },
+    useExistingToken({commit}) {
+      return new Promise((resolve) => {
+        commit('login', {access: localStorage.getItem("access")})
+        resolve()
+      })
+      
+    }
   },
   getters: {
     getUser: (state) => {

@@ -3,6 +3,7 @@ declare namespace NodeJS {
         TESTUSER_EMAIL: string,
         TESTUSER_PASSWORD: string,
         TESTUSER_NAME: string,
-        JWT_SECRET_KEY: string
+        JWT_SECRET_KEY: string,
+        API_PREFIX: string
     }
 }
