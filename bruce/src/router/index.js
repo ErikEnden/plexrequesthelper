@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { store } from "@/store/index";
 import Login from "@/views/Login";
 import Dashboard from "@/views/Dashboard";
+import Search from "@/views/Search";
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     meta: {
       public: false,
     },
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: Search,
   },
 ];
 
