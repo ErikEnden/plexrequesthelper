@@ -24,7 +24,7 @@
         v-model="password"
         @input="this.error.show ? (this.error.show = false) : ''"
       />
-      <button class="btn btn-accent" @click="login">Login</button>
+      <button class="btn btn-accent h-8 w-24" @click="login">Login</button>
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@ import {BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typ
 import { User } from './User';
 
 @Entity()
-export class Request extends BaseEntity {
+export class MediaRequest extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 

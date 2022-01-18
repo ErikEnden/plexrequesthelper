@@ -22,6 +22,8 @@ export default {
       this.query = this.$route.query.q;
       this.searchMovies();
     }
+    if (!this.movieGenres) this.$store.dispatch("staticdata/getMovieGenres");
+    if (!this.tvGenres) this.$store.dispatch("staticdata/getTVGenres");
   },
   methods: {
     searchMovies() {

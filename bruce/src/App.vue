@@ -27,7 +27,7 @@ export default {
     let token = localStorage.getItem("access");
     if (token) {
       axios({
-        url: `${process.env.VUE_APP_API_URL}/verify`,
+        url: `${process.env.VUE_APP_API_URL}auth/verify`,
         method: "get",
         headers: {
           Authorization: `Bearer ${token}`,

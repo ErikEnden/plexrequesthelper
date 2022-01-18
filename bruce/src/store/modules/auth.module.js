@@ -25,7 +25,7 @@ export const auth = {
               email: user.email,
               password: user.password,
             },
-            url: `${process.env.VUE_APP_API_URL}/login`,
+            url: `${process.env.VUE_APP_API_URL}auth/login`,
           })
             .then((res) => {
               commit("login", res.data);
@@ -37,13 +37,12 @@ export const auth = {
         }
       });
     },
-    useExistingToken({commit}) {
+    useExistingToken({ commit }) {
       return new Promise((resolve) => {
-        commit('login', {access: localStorage.getItem("access")})
-        resolve()
-      })
-      
-    }
+        commit("login", { access: localStorage.getItem("access") });
+        resolve();
+      });
+    },
   },
   getters: {
     getUser: (state) => {
