@@ -1,19 +1,21 @@
-import { checkIsAdmin } from "../middleware/checkAdmin";
 import { verifyToken } from "../utilities/tokenFactory";
 import { Request, Response } from 'express';
 import { MediaRequest } from "../../entities/MediaRequest";
 import { getConnection } from 'typeorm';
+import { User } from "../../entities/User";
 const requestController = require('express').Router();
 
-requestController.get('/list', [verifyToken], (req: Request, res: Response) => {
+requestController.get('/list', [verifyToken], async (req: Request, res: Response) => {
     const connection = getConnection()
     let data = null
     if(req.user) {
+        let user = connection.manager.findOne(User, {id: req.user.id})
+        console.log(user)
         if(!req.user.isAdmin) {
-            data = connection.manager.find(Request, {requester: req.user})
+            data = await connection.manager.find(MediaRequest, where: {requester: user})
         }
         else {
-            data = connection.manager.find(Request)
+            data = connection.manager.find(MediaRequest)
         }
     } else {
         res.sendStatus(400)

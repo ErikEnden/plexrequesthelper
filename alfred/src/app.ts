@@ -1,6 +1,6 @@
 import { ConnectionOptions, createConnection } from "typeorm";
 import { User } from "./entities/User";
-import { Request } from './entities/Request';
+import { MediaRequest } from './entities/MediaRequest';
 import initializeRouter from './router'
 const express =  require('express');
 const app = express();
@@ -12,7 +12,7 @@ require('dotenv').config()
 const connectionOptions: ConnectionOptions = {
     type: "sqlite",
     database: "./db.sqlite",
-    entities: [User, Request],
+    entities: [User, MediaRequest],
     logging: true,
     synchronize: true
 }

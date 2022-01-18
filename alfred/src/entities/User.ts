@@ -1,5 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany} from "typeorm";
-import { Request } from "./Request";
+import { MediaRequest } from "./MediaRequest";
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,6 +18,6 @@ export class User extends BaseEntity {
     @Column()
     isAdmin: boolean;
 
-    @OneToMany(() => Request, request => request.requester)
+    @OneToMany(() => MediaRequest, request => request.requester)
     requests: Request[];
 }
