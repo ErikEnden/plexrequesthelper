@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 export const auth = {
   namespaced: true,
@@ -7,7 +8,7 @@ export const auth = {
   },
   mutations: {
     login(state, user) {
-      state.user = user;
+      state.user = { token: user.access, decoded: jwtDecode(user.access) };
       localStorage.setItem("access", user.access);
     },
     logout(state) {

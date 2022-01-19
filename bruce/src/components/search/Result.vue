@@ -14,7 +14,9 @@
         >
           <img src="/tmdb.svg" class="h-8 w-8" />
         </a>
-        <button class="btn btn-success w-40">Create request</button>
+        <button class="btn btn-success w-40" @click="createRequest">
+          Create request
+        </button>
       </div>
 
       <p class="mb-2">{{ data.overview }}</p>
@@ -43,6 +45,14 @@ export default {
       default: () => {
         return {};
       },
+    },
+  },
+  methods: {
+    createRequest() {
+      this.$store.dispatch("request/openCreateRequestModal", {
+        data: this.data,
+        poster: this.posterUrl,
+      });
     },
   },
   computed: {

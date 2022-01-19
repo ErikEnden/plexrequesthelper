@@ -13,6 +13,7 @@ export const verifyToken = (req: Request, res: Response, next: any) => {
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err: any, user: any) => {
         if(err) return res.sendStatus(403)
+
         req.user = user;
         next();
         return;

@@ -7,11 +7,15 @@
     <sidebar v-if="user" />
     <router-view />
   </div>
+  <transition name="fade" :duration="100">
+    <request-modal v-if="user && showRequestModal"></request-modal>
+  </transition>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import RequestModal from "@/components/requests/RequestModal";
 import axios from "axios";
 import { mapGetters } from "vuex";
 
@@ -19,9 +23,7 @@ export default {
   components: {
     Navbar,
     Sidebar,
-  },
-  computed: {
-    ...mapGetters({ user: "auth/getUser" }),
+    RequestModal,
   },
   mounted() {
     let token = localStorage.getItem("access");
@@ -42,6 +44,12 @@ export default {
     } else {
       this.$store.dispatch("auth/logout");
     }
+  },
+  computed: {
+    ...mapGetters({
+      user: "auth/getUser",
+      showRequestModal: "request/showRequestModal",
+    }),
   },
 };
 </script>

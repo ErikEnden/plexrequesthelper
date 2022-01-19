@@ -1,23 +1,27 @@
 <template>
-  <div class="content-page">asd</div>
+  <div class="content-page">
+    <admin-requests
+      v-if="user.decoded.isAdmin && requests"
+      :data="requests"
+    ></admin-requests>
+    <user-requests v-else></user-requests>
+  </div>
 </template>
 
 <script>
-import axios from "axios";
+import AdminRequests from "@/components/requests/AdminRequests";
+import UserRequests from "@/components/requests/UserRequests";
+import { mapGetters } from "vuex";
 export default {
+  components: { AdminRequests, UserRequests },
   mounted() {
-    this.retrieveRequests();
+    this.$store.dispatch("request/retrieveRequests");
   },
-  methods: {
-    retrieveRequests() {
-      axios({
-        method: "get",
-        url: `${process.env.VUE_APP_API_URL}requests/list`,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
-        },
-      });
-    },
+  computed: {
+    ...mapGetters({
+      user: "auth/getUser",
+      requests: "request/requests",
+    }),
   },
 };
 </script>

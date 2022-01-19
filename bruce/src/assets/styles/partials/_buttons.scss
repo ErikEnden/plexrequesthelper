@@ -8,6 +8,14 @@
     }
     &.btn-success {
         @apply bg-success;
-
+        &:hover {
+            @apply ring-2 ring-success bg-success-dark;
+        }
+    }
+    &.btn-danger {
+        @apply bg-danger;
+        &:hover {
+            @apply bg-danger-dark ring-2 ring-danger;
+        }
     }
 }
