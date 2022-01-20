@@ -2,7 +2,8 @@ const enum Status {
     Requested,
     Accepted,
     Fulfilled,
-    Rejected
+    Rejected,
+    Cancelled
 }
 
 export default Status

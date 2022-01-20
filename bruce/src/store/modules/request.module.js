@@ -72,6 +72,33 @@ export const request = {
         },
       });
     },
+    rejectRequest(context, data) {
+      return axios({
+        method: "patch",
+        url: `${process.env.VUE_APP_API_URL}requests/reject/${data}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
+    fulfillRequest(context, data) {
+      return axios({
+        method: "patch",
+        url: `${process.env.VUE_APP_API_URL}requests/fulfill/${data}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
+    cancelRequest(context, data) {
+      return axios({
+        method: "patch",
+        url: `${process.env.VUE_APP_API_URL}requests/cancel/${data}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
     updateRequest({ commit }, data) {
       commit("updateRequest", data);
     },

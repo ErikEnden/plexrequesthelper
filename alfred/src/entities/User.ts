@@ -18,6 +18,9 @@ export class User extends BaseEntity {
     @Column()
     isAdmin: boolean;
 
+    @Column({type: 'date', nullable: true})
+    last_login: string;
+
     @OneToMany(() => MediaRequest, request => request.requester)
     requests: Request[];
 }

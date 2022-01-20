@@ -50,10 +50,15 @@
         <button
           class="btn btn-success h-8 w-32 mr-2"
           v-if="request.status === 1 && user.decoded.isAdmin"
+          @click="fulfillRequest"
         >
           Mark fulfilled
         </button>
-        <button class="btn btn-danger h-8 w-20" v-if="request.status === 1">
+        <button
+          class="btn btn-danger h-8 w-20"
+          v-if="request.status === 1"
+          @click="cancelRequest"
+        >
           Cancel
         </button>
       </div>
@@ -84,13 +89,25 @@ export default {
         });
     },
     rejectRequest() {
-      this.$store.dispatch("request/rejectRequest", this.request.id);
+      this.$store
+        .dispatch("request/rejectRequest", this.request.id)
+        .then((res) => {
+          this.$store.dispatch("request/updateRequest", res.data);
+        });
     },
     fulfillRequest() {
-      this.$store.dispatch("request/fulfillRequest", this.request.id);
+      this.$store
+        .dispatch("request/fulfillRequest", this.request.id)
+        .then((res) => {
+          this.$store.dispatch("request/updateRequest", res.data);
+        });
     },
     cancelRequest() {
-      this.$store.dispatch("request/cancelRequest", this.request.id);
+      this.$store
+        .dispatch("request/cancelRequest", this.request.id)
+        .then((res) => {
+          this.$store.dispatch("request/updateRequest", res.data);
+        });
     },
   },
   computed: {
@@ -109,7 +126,7 @@ export default {
         return "bg-warning";
       } else if (this.request.status === 2) {
         return "bg-success";
-      } else if (this.request.status === 3) {
+      } else if (this.request.status === 3 || this.request.status === 4) {
         return "bg-danger";
       } else {
         return "";
