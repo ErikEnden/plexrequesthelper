@@ -1,0 +1,6 @@
+.modal {
+    @apply z-50 absolute h-screen w-screen bg-grey-dark bg-opacity-75 left-0 top-0 flex items-center justify-center;
+    .modal-body {
+        @apply bg-grey h-auto rounded p-4 flex flex-col shadow-xl;
+    }
+}

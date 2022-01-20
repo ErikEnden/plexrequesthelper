@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 export const auth = {
   namespaced: true,
@@ -7,7 +8,7 @@ export const auth = {
   },
   mutations: {
     login(state, user) {
-      state.user = user;
+      state.user = { token: user.access, decoded: jwtDecode(user.access) };
       localStorage.setItem("access", user.access);
     },
     logout(state) {
@@ -25,7 +26,7 @@ export const auth = {
               email: user.email,
               password: user.password,
             },
-            url: `${process.env.VUE_APP_API_URL}/login`,
+            url: `${process.env.VUE_APP_API_URL}auth/login`,
           })
             .then((res) => {
               commit("login", res.data);
@@ -37,13 +38,12 @@ export const auth = {
         }
       });
     },
-    useExistingToken({commit}) {
+    useExistingToken({ commit }) {
       return new Promise((resolve) => {
-        commit('login', {access: localStorage.getItem("access")})
-        resolve()
-      })
-      
-    }
+        commit("login", { access: localStorage.getItem("access") });
+        resolve();
+      });
+    },
   },
   getters: {
     getUser: (state) => {

@@ -11,8 +11,8 @@ module.exports = {
         light: "#212130",
       },
       success: {
-        dark: "#0C975B",
-        DEFAULT: "#11D07D",
+        dark: "#097144",
+        DEFAULT: "#0C975B",
       },
       warning: {
         dark: "#BF9E0D",
