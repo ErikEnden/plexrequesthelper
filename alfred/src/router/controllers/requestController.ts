@@ -27,6 +27,22 @@ requestController.get('/list', [verifyToken], async (req: Request, res: Response
     }
 })
 
+requestController.get('/list/compact', [verifyToken], async (req: Request, res: Response) => {
+    const connection = getConnection()
+    if(!req.user) return res.sendStatus(400)
+    let data
+    
+    if(req.user.isAdmin) {
+        data = await connection.manager.find(MediaRequest, {relations: ["requester"]})
+        console.log(data)
+        return res.send({results: data})
+    }
+
+    let user = await connection.manager.findOne(User, {id: req.user.id})
+    data = await connection.createQueryBuilder(MediaRequest, "request").select("request").where("request.user = :user", {user: user})
+    return res.send({results: data})
+})
+
 requestController.post('/new', [verifyToken], async (req: Request, res: Response) => {
     const connection = getConnection()
     let user
@@ -62,10 +78,54 @@ requestController.patch('/accept/:requestId', [verifyToken], async (req: Request
     if(!req.user.isAdmin) return res.sendStatus(401)
     
     const connection = await getConnection()
-    const request = await connection.manager.findOne(MediaRequest, {id: req.params.requestId})
+    const request = await connection.manager.findOne(MediaRequest, {id: req.params.requestId}, {relations: ["requester"]})
 
     if(!request) return res.sendStatus(500)
     request.status = Status.Accepted
+
+    connection.manager.save(request)
+    res.send(request)
+    return;
+})
+requestController.patch('/reject/:requestId', [verifyToken], async (req: Request<{requestId: number}>, res: Response) => {
+    if(!req.user) return res.sendStatus(400)
+    if(!req.user.isAdmin) return res.sendStatus(401)
+    
+    const connection = await getConnection()
+    const request = await connection.manager.findOne(MediaRequest, {id: req.params.requestId}, {relations: ["requester"]})
+
+    if(!request) return res.sendStatus(500)
+    request.status = Status.Rejected
+
+    connection.manager.save(request)
+    res.send(request)
+    return;
+})
+
+requestController.patch('/fulfill/:requestId', [verifyToken], async (req: Request<{requestId: number}>, res: Response) => {
+    if(!req.user) return res.sendStatus(400)
+    if(!req.user.isAdmin) return res.sendStatus(401)
+    
+    const connection = await getConnection()
+    const request = await connection.manager.findOne(MediaRequest, {id: req.params.requestId}, {relations: ["requester"]})
+
+    if(!request) return res.sendStatus(500)
+    request.status = Status.Fulfilled
+
+    connection.manager.save(request)
+    res.send(request)
+    return;
+})
+
+requestController.patch('/cancel/:requestId', [verifyToken], async (req: Request<{requestId: number}>, res: Response) => {
+    if(!req.user) return res.sendStatus(400)
+    if(!req.user.isAdmin) return res.sendStatus(401)
+    
+    const connection = await getConnection()
+    const request = await connection.manager.findOne(MediaRequest, {id: req.params.requestId}, {relations: ["requester"]})
+
+    if(!request) return res.sendStatus(500)
+    request.status = Status.Cancelled
 
     connection.manager.save(request)
     res.send(request)
