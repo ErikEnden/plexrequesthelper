@@ -1,13 +1,12 @@
 import { ConnectionOptions, createConnection } from "typeorm";
 import { User } from "./entities/User";
 import { MediaRequest } from './entities/MediaRequest';
-import initializeRouter from './router'
+import initializeRouter from './router';
+import {generateUser} from './router/utilities/userFactory';
 const express =  require('express');
+const cors = require('cors');
 const app = express();
-const argon2 = require('argon2')
-const cors = require('cors')
-
-require('dotenv').config()
+require('dotenv').config();
 
 const connectionOptions: ConnectionOptions = {
     type: "sqlite",
@@ -17,16 +16,7 @@ const connectionOptions: ConnectionOptions = {
     synchronize: true
 }
 
-const generateTestUser = async () =>  {
-    let user = new User()
 
-    user.name = process.env.TESTUSER_NAME
-    user.email = process.env.TESTUSER_EMAIL
-    user.password = await argon2.hash(process.env.TESTUSER_PASSWORD)
-    user.isAdmin = true
-    
-    return user
-}
 
 const main = async () => {
     const connection = await createConnection(connectionOptions)
@@ -34,9 +24,11 @@ const main = async () => {
     app.use(express.json())
     initializeRouter(app)
 
-    const testUser = await connection.manager.find(User, {email: 'default@admin.com'})
-    let testUserData = await generateTestUser()
-    if(testUser.length === 0) await connection.manager.save(testUserData)
+    const testUser = await connection.manager.findOne(User, {login: process.env.TESTUSER_EMAIL})
+    if(!testUser) {
+        let testUserData = await generateUser(process.env.TESTUSER_NAME, process.env.TESTUSER_LOGIN, process.env.TESTUSER_PASSWORD, true)
+        await connection.manager.save(testUserData)
+    }
 
     app.listen(3000, () => {
         console.log('Listening at localhost:3000')

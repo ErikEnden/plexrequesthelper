@@ -23,7 +23,7 @@ export const auth = {
           axios({
             method: "post",
             data: {
-              email: user.email,
+              login: user.login,
               password: user.password,
             },
             url: `${process.env.VUE_APP_API_URL}auth/login`,
@@ -42,6 +42,46 @@ export const auth = {
       return new Promise((resolve) => {
         commit("login", { access: localStorage.getItem("access") });
         resolve();
+      });
+    },
+    createUser(context, user) {
+      return axios({
+        method: "post",
+        data: user,
+        url: `${process.env.VUE_APP_API_URL}auth/users/create`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
+    deleteUser(context, userId) {
+      return axios({
+        method: "post",
+        data: userId,
+        url: `${process.env.VUE_APP_API_URL}auth/users/delete`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
+    deactivateUser(context, userId) {
+      return axios({
+        method: "post",
+        data: userId,
+        url: `${process.env.VUE_APP_API_URL}auth/users/deactivate`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
+    reactivateUser(context, userId) {
+      return axios({
+        method: "post",
+        data: userId,
+        url: `${process.env.VUE_APP_API_URL}auth/users/reactivate`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
       });
     },
   },

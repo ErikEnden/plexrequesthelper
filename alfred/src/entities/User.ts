@@ -9,17 +9,20 @@ export class User extends BaseEntity {
     @Column() 
     name: string;
 
-    @Column()
-    email: string;
+    @Column({unique: true})
+    login: string;
 
     @Column()
     password: string;
 
     @Column()
-    isAdmin: boolean;
+    is_admin: boolean;
 
     @Column({type: 'date', nullable: true})
     last_login: string;
+
+    @Column({default: true})
+    is_active: boolean;
 
     @OneToMany(() => MediaRequest, request => request.requester)
     requests: Request[];
