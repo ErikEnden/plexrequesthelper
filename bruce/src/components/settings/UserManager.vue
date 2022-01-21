@@ -1,14 +1,22 @@
 <template>
   <div class="flex flex-col rounded bg-grey-dark">
     <div class="flex rounded-t bg-grey-light p-2 font-medium">
-      <div class="flex w-1/5">Name</div>
-      <div class="flex w-1/5">Email</div>
-      <div class="flex w-1/5">Last login</div>
-      <div class="flex w-1/5">Admin</div>
+      <div class="flex w-1/6">Name</div>
+      <div class="flex w-1/6">Login</div>
+      <div class="flex w-1/6">Last login</div>
+      <div class="flex w-1/6">Admin</div>
+      <div class="flex w-1/6">Active</div>
     </div>
-    <user-list-item v-for="user in users" :key="user.id" :user="user" />
+    <user-list-item
+      v-for="user in users"
+      :key="user.id"
+      :user="user"
+      @usersUpdated="handleUsersUpdated"
+    />
     <div class="flex p-2">
-      <button class="btn btn-success w-24">Add user</button>
+      <button class="btn btn-success w-24" @click="$router.push('/users/new')">
+        Add user
+      </button>
     </div>
   </div>
 </template>
@@ -37,6 +45,9 @@ export default {
       }).then((res) => {
         this.users = res.data;
       });
+    },
+    handleUsersUpdated() {
+      this.retrieveUserList();
     },
   },
   mounted() {

@@ -5,6 +5,7 @@ import Dashboard from "@/views/Dashboard";
 import Search from "@/views/Search";
 import Requests from "@/views/Requests";
 import Settings from "@/views/Settings";
+import AddUser from "@/views/AddUser";
 
 const routes = [
   {
@@ -43,6 +44,14 @@ const routes = [
     path: "/settings",
     name: "Settings",
     component: Settings,
+    meta: {
+      public: false,
+    },
+  },
+  {
+    path: "/users/new",
+    name: "AddUser",
+    component: AddUser,
     meta: {
       public: false,
     },

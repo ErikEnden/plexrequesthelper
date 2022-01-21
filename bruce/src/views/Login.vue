@@ -11,10 +11,10 @@
         </div>
       </transition>
       <input
-        placeholder="Email"
+        placeholder="Login"
         class="mb-2 w-full"
-        type="email"
-        v-model="email"
+        type="text"
+        v-model="loginField"
         @input="this.error.show ? (this.error.show = false) : ''"
       />
       <input
@@ -33,17 +33,17 @@
 export default {
   data() {
     return {
-      email: "",
+      loginField: "",
       password: "",
       error: { show: false, message: "" },
     };
   },
   methods: {
     login() {
-      if (this.email && this.password)
+      if (this.loginField && this.password)
         this.$store
           .dispatch("auth/login", {
-            email: this.email,
+            login: this.loginField,
             password: this.password,
           })
           .then(() => {
