@@ -4,6 +4,7 @@ import Login from "@/views/Login";
 import Dashboard from "@/views/Dashboard";
 import Search from "@/views/Search";
 import Requests from "@/views/Requests";
+import Settings from "@/views/Settings";
 
 const routes = [
   {
@@ -34,6 +35,14 @@ const routes = [
     path: "/requests",
     name: "Requests",
     component: Requests,
+    meta: {
+      public: false,
+    },
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
     meta: {
       public: false,
     },
