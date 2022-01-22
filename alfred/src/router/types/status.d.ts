@@ -1,9 +1,9 @@
 const enum Status {
-    Requested,
-    Accepted,
-    Fulfilled,
-    Rejected,
-    Cancelled
+  Requested,
+  Accepted,
+  Fulfilled,
+  Rejected,
+  Cancelled
 }
 
-export default Status
+export default Status;

@@ -38,6 +38,12 @@ export const auth = {
         }
       });
     },
+    logout({ commit }) {
+      return new Promise((res) => {
+        commit("logout");
+        res();
+      });
+    },
     useExistingToken({ commit }) {
       return new Promise((resolve) => {
         commit("login", { access: localStorage.getItem("access") });
@@ -87,7 +93,7 @@ export const auth = {
   },
   getters: {
     getUser: (state) => {
-      return state.user ?? false;
+      return state.user ?? null;
     },
   },
 };

@@ -13,15 +13,20 @@
       <input
         placeholder="Login"
         class="mb-2 w-full"
+        :class="v$.loginField.$error ? 'ring-2 ring-danger' : ''"
         type="text"
         v-model="loginField"
         @input="this.error.show ? (this.error.show = false) : ''"
+        @keyup.enter="$refs.password.focus"
       />
       <input
         placeholder="Password"
         class="mb-4 w-full"
         type="password"
+        :class="v$.password.$error ? 'ring-2 ring-danger' : ''"
         v-model="password"
+        ref="password"
+        @keyup.enter="login"
         @input="this.error.show ? (this.error.show = false) : ''"
       />
       <button class="btn btn-accent h-8 w-24" @click="login">Login</button>
@@ -30,7 +35,12 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       loginField: "",
@@ -40,6 +50,7 @@ export default {
   },
   methods: {
     login() {
+      this.v$.$touch();
       if (this.loginField && this.password)
         this.$store
           .dispatch("auth/login", {
@@ -62,6 +73,10 @@ export default {
             }
           });
     },
+  },
+  validations: {
+    loginField: { required },
+    password: { required },
   },
 };
 </script>

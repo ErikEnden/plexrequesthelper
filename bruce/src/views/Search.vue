@@ -3,7 +3,11 @@
     <h4 v-if="data" class="mb-2">
       Searching for {{ $route.query.q }} ({{ data.total_results }} results)
     </h4>
-    <ResultsRenderer :data="this.data" v-if="data"></ResultsRenderer>
+    <ResultsRenderer
+      :data="data"
+      :existingRequests="existingRequests"
+      v-if="data"
+    ></ResultsRenderer>
   </div>
 </template>
 <script>
@@ -14,10 +18,12 @@ export default {
     return {
       query: "",
       data: null,
+      existingRequests: [],
       page: 1,
     };
   },
   mounted() {
+    this.retrieveExisting();
     if (this.$route.query.q) {
       this.query = this.$route.query.q;
       this.searchMovies();
@@ -32,10 +38,21 @@ export default {
         url: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.VUE_APP_TMDB_KEY}&query=${this.query}&page=${this.page}`,
       }).then((res) => {
         this.data = res.data;
-        this.data.results = this.data.results.sort((a, b) => {
-          return b.popularity - a.popularity;
-        });
       });
+    },
+    retrieveExisting() {
+      axios({
+        method: "GET",
+        url: `${process.env.VUE_APP_API_URL}requests/existing`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      }).then(
+        (res) =>
+          (this.existingRequests = res.data.existing_requests.map((x) =>
+            parseInt(x.tmdb_id)
+          ))
+      );
     },
   },
   components: { ResultsRenderer },

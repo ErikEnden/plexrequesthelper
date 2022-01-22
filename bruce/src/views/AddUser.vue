@@ -10,14 +10,22 @@
     </div>
     <div class="flex flex-col w-1/2 mx-auto items-center">
       <h3>Add new user</h3>
-      <h4>Name</h4>
-      <input class="w-full" v-model="user.name" />
-      <h4>Login</h4>
-      <input class="w-full" v-model="user.login" />
-      <h4>Password</h4>
-      <input class="w-full" v-model="user.password" type="password" />
-      <h4>Admin?</h4>
-      <input class="mb-4" type="checkbox" v-model="user.isAdmin" />
+      <div class="flex w-full">
+        <h4>Name</h4>
+      </div>
+      <input class="w-full p-1 mb-2" v-model="user.name" />
+      <div class="flex w-full">
+        <h4>Login</h4>
+      </div>
+      <input class="w-full p-1 mb-2" v-model="user.login" />
+      <div class="flex w-full">
+        <h4>Password</h4>
+      </div>
+      <input class="w-full mb-2 p-1" v-model="user.password" type="password" />
+      <div class="flex w-full items-center mb-4">
+        <h4 class="mr-4">Is an admin</h4>
+        <input type="checkbox" v-model="user.isAdmin" class="h-5 w-5" />
+      </div>
       <button class="w-40 h-8 btn btn-success" @click="createUser">
         Create user
       </button>
@@ -40,7 +48,7 @@ export default {
   methods: {
     createUser() {
       this.$store.dispatch("auth/createUser", this.user).then((res) => {
-        console.log(res);
+        if (res.status === 201) this.$router.push("/settings");
       });
     },
   },
