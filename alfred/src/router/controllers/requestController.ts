@@ -154,7 +154,7 @@ requestController.patch(
     if (!request) return res.sendStatus(500);
     request.status = Status.Cancelled;
 
-    await connection.manager.save(request);
+    await connection.manager.delete(MediaRequest, request.id);
     return res.send(request);
   }
 );
