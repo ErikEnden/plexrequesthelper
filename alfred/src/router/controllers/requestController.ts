@@ -47,8 +47,8 @@ requestController.get(
       data = await connection.manager
         .getRepository(MediaRequest)
         .createQueryBuilder('mediarequest')
-        .leftJoin('mediarequest.requesters', 'requesters')
-        .addSelect(['requesters.id', 'requesters.name'])
+        .innerJoin('mediarequest.requester', 'requester')
+        .addSelect(['requester.id', 'requester.name'])
         .getMany();
 
       data = data.sort((a, b) => {

@@ -25,9 +25,7 @@
       <div class="flex mb-2">
         <p>
           Requested by
-          <span v-for="(item, index) in request.requesters" :key="item.name"
-            ><span v-if="index > 0">, </span>{{ item.name }}</span
-          >
+          <span>{{ request.requester.name }}</span>
           <span class="text-white-dark ml-2">{{ requestTime }}</span>
         </p>
       </div>
