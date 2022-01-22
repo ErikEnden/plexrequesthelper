@@ -14,7 +14,7 @@ const connectionOptions: ConnectionOptions = {
   type: 'sqlite',
   database: './db.sqlite',
   entities: [User, MediaRequest],
-  logging: true,
+  logging: false,
   synchronize: true
 };
 

@@ -4,8 +4,8 @@ import { getConnection } from 'typeorm';
 import { generateToken, verifyToken } from '../utilities/tokenFactory';
 import { DateTime } from 'luxon';
 import { generateUser } from '../utilities/userFactory';
-import express = require('express');
-import argon2 = require('argon2');
+import express from 'express';
+import argon2 from 'argon2';
 
 const authController = express.Router();
 
