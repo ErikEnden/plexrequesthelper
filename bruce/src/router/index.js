@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { store } from "@/store/index";
 import Login from "@/views/Login";
-import Dashboard from "@/views/Dashboard";
 import Search from "@/views/Search";
 import Requests from "@/views/Requests";
 import Settings from "@/views/Settings";
@@ -17,14 +16,6 @@ const routes = [
     },
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
-    meta: {
-      public: false,
-    },
-  },
-  {
     path: "/search",
     name: "Search",
     component: Search,
@@ -33,8 +24,8 @@ const routes = [
     },
   },
   {
-    path: "/requests",
-    name: "Requests",
+    path: "/dashboard",
+    name: "Dashboard",
     component: Requests,
     meta: {
       public: false,

@@ -4,12 +4,12 @@
       <sidebar-item
         :title="item.title"
         :target="item.target"
-        v-for="(item, index) in sidebarItems"
+        v-for="(item, index) in sidebarItemsComputed"
         :key="index"
         :class="[
           index === 0
             ? 'rounded-t'
-            : index === sidebarItems.length - 1
+            : index === sidebarItemsComputed.length - 1
             ? 'rounded-b'
             : '',
         ]"
@@ -20,18 +20,28 @@
 
 <script>
 import SidebarItem from "@/components/SidebarItem";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       sidebarItems: [
-        { title: "Dashboard", icon: null, target: "/dashboard" },
-        { title: "Requests", icon: null, target: "/requests" },
-        { title: "Settings", icon: null, target: "/settings" },
+        { title: "Dashboard", icon: null, target: "/dashboard", admin: false },
+        { title: "Settings", icon: null, target: "/settings", admin: true },
       ],
     };
   },
   components: {
     SidebarItem,
+  },
+  computed: {
+    ...mapGetters({
+      user: "auth/getUser",
+    }),
+    sidebarItemsComputed() {
+      return this.user.decoded.isAdmin
+        ? this.sidebarItems
+        : this.sidebarItems.filter((x) => !x.admin);
+    },
   },
 };
 </script>

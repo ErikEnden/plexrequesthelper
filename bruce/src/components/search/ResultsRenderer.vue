@@ -3,6 +3,7 @@
     <result
       v-for="result in data.results"
       :key="result.id"
+      :exists="existingRequests.includes(result.id)"
       :data="result"
       :imageConfig="configData"
     ></result>
@@ -17,6 +18,12 @@ export default {
       type: Object,
       default: () => {
         return {};
+      },
+    },
+    existingRequests: {
+      type: Array,
+      default: () => {
+        return [];
       },
     },
   },

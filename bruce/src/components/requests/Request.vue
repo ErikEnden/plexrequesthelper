@@ -24,13 +24,16 @@
       </div>
       <div class="flex mb-2">
         <p>
-          Requested by {{ request.requester.name
-          }}<span class="text-white-dark ml-2">{{ requestTime }}</span>
+          Requested by
+          <span v-for="(item, index) in request.requesters" :key="item.name"
+            ><span v-if="index > 0">, </span>{{ item.name }}</span
+          >
+          <span class="text-white-dark ml-2">{{ requestTime }}</span>
         </p>
       </div>
       <div class="flex mb-4 flex-col">
         <p class="font-medium">Notes</p>
-        <p>{{ request.notes ? `"${request.notes}` : "-" }}</p>
+        <p class="italic">{{ request.notes ? `"${request.notes}"` : "-" }}</p>
       </div>
       <div class="flex">
         <button

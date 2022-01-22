@@ -6,7 +6,18 @@
     <div class="flex flex-col w-11/12 pl-3">
       <div class="flex items-center">
         <h3>{{ title }}</h3>
-        <div class="rating-label">{{ data.vote_average }}</div>
+        <div
+          class="rating-label"
+          :class="
+            data.vote_average > 6.66
+              ? 'bg-success'
+              : data.vote_average > 3.33
+              ? 'bg-warning-dark'
+              : 'bg-danger'
+          "
+        >
+          {{ data.vote_average }}
+        </div>
         <a
           :href="`https://themoviedb.org/movie/${data.id}`"
           class="tmdb-link mr-3"
@@ -14,9 +25,14 @@
         >
           <img src="/tmdb.svg" class="h-8 w-8" />
         </a>
-        <button class="btn btn-success w-40" @click="createRequest">
+        <button
+          class="btn btn-success w-40"
+          @click="createRequest"
+          v-if="!exists"
+        >
           Create request
         </button>
+        <p v-else>Request exists</p>
       </div>
 
       <p class="mb-2">{{ data.overview }}</p>
@@ -45,6 +61,9 @@ export default {
       default: () => {
         return {};
       },
+    },
+    exists: {
+      type: Boolean,
     },
   },
   methods: {
@@ -89,7 +108,7 @@ export default {
 
 <style lang="scss" scoped>
 .rating-label {
-  @apply bg-accent rounded p-1 mx-3;
+  @apply rounded p-1 mx-3 w-8 flex justify-center items-center;
 }
 .genre-tag {
   @apply rounded bg-accent px-1 mr-2;

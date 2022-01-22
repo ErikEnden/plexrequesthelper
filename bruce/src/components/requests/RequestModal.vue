@@ -52,7 +52,7 @@ export default {
       this.$store
         .dispatch("request/createRequest", { notes: this.notes })
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 201 || res.status === 200) {
             this.closeModal();
           }
         });

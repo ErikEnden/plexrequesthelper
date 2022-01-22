@@ -12,33 +12,62 @@
     <div class="flex w-1/6 justify-end">
       <button
         class="btn btn-danger w-24"
-        @click="deactivateUser"
+        @click="
+          openConfirmModal(
+            `Are you sure you want to deactivate the selected user? (${user.name})`,
+            deactivateUser
+          )
+        "
         v-if="user.is_active && user.id !== $store.state.auth.user.decoded.id"
       >
         Deactivate
       </button>
       <button
         class="btn btn-success w-24 mr-2"
-        @click="reactivateUser"
+        @click="
+          openConfirmModal(
+            `Are you sure you want to reactivate the selected user? (${user.name})`,
+            reactivateUser
+          )
+        "
         v-if="!user.is_active"
       >
         Reactivate
       </button>
       <button
         class="btn btn-danger w-20"
-        @click="deleteUser"
+        @click="
+          openConfirmModal(
+            `Are you sure you want to delete the selected user? (${user.name})`,
+            deleteUser
+          )
+        "
         v-if="!user.is_active"
       >
         Delete
       </button>
     </div>
+    <confirmation-modal
+      v-if="displayConfirmModal"
+      :text="confirmModalText"
+      @confirm="confirmModalCallback()"
+      @close="closeConfirmModal"
+    ></confirmation-modal>
   </div>
 </template>
 
 <script>
 import { DateTime } from "luxon";
+import ConfirmationModal from "../utilities/ConfirmationModal";
 
 export default {
+  data() {
+    return {
+      confirmModalText: "",
+      confirmModalCallback: null,
+      displayConfirmModal: false,
+    };
+  },
   props: {
     user: {
       type: Object,
@@ -47,7 +76,18 @@ export default {
       },
     },
   },
+  components: { ConfirmationModal },
   methods: {
+    openConfirmModal(text, callback) {
+      this.confirmModalText = text;
+      this.confirmModalCallback = callback;
+      this.displayConfirmModal = true;
+    },
+    closeConfirmModal() {
+      this.confirmModalText = "";
+      this.confirmModalCallback = null;
+      this.displayConfirmModal = false;
+    },
     deactivateUser() {
       this.$store
         .dispatch("auth/deactivateUser", { userId: this.user.id })

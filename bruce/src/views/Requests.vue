@@ -4,7 +4,10 @@
       v-if="user.decoded.isAdmin && requests"
       :data="requests"
     ></admin-requests>
-    <user-requests v-else></user-requests>
+    <user-requests
+      v-if="!user.decoded.isAdmin && requests"
+      :data="requests"
+    ></user-requests>
   </div>
 </template>
 
