@@ -26,7 +26,7 @@ export default {
     return {
       sidebarItems: [
         { title: "Dashboard", icon: null, target: "/dashboard", admin: false },
-        { title: "Settings", icon: null, target: "/settings", admin: true },
+        { title: "Admin", icon: null, target: "/admin", admin: true },
       ],
     };
   },

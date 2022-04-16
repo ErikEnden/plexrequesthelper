@@ -13,7 +13,7 @@ export class MediaRequest extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn()
   requester: User;
 
@@ -37,4 +37,7 @@ export class MediaRequest extends BaseEntity {
 
   @Column('int', { nullable: false })
   status: Status;
+
+  @Column({ nullable: true })
+  media_type: string;
 }

@@ -7,8 +7,24 @@
           <img :src="requestTarget.poster" class="rounded" />
         </div>
         <div class="flex flex-col w-3/4 pl-4">
-          <h4 class="mb-2">{{ requestTarget.data.title }}</h4>
-          <p>{{ requestTarget.data.overview }}</p>
+          <h4 class="mb-2">
+            {{
+              `${
+                requestTarget.data.title
+                  ? requestTarget.data.title
+                  : requestTarget.data.name
+              } (${
+                requestTarget.data.release_date
+                  ? requestTarget.data.release_date.split("-")[0]
+                  : requestTarget.data.first_air_date
+                  ? requestTarget.data.first_air_date.split("-")[0]
+                  : "No release date"
+              })`
+            }}
+          </h4>
+          <p class="bg-grey-light rounded p-2">
+            {{ requestTarget.data.overview }}
+          </p>
         </div>
       </div>
 
@@ -37,6 +53,10 @@ export default {
     show: {
       type: Boolean,
       default: false,
+    },
+    title: {
+      type: String,
+      default: "",
     },
   },
   data() {

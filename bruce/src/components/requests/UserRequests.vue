@@ -7,6 +7,9 @@
         :key="item.id"
         :request="item"
       ></request>
+      <span v-if="data.results && data.results.length === 0">
+        You haven't made any requests yet
+      </span>
     </div>
   </div>
 </template>

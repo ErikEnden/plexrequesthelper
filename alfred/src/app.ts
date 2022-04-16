@@ -6,6 +6,8 @@ import { generateUser } from './router/utilities/userFactory';
 import express = require('express');
 import cors = require('cors');
 import dotenv = require('dotenv');
+import helmet from 'helmet';
+import { UserRequest } from './entities/UserRequest';
 
 const app = express();
 dotenv.config();
@@ -13,7 +15,7 @@ dotenv.config();
 const connectionOptions: ConnectionOptions = {
   type: 'sqlite',
   database: './db.sqlite',
-  entities: [User, MediaRequest],
+  entities: [User, MediaRequest, UserRequest],
   logging: false,
   synchronize: true
 };
@@ -21,11 +23,12 @@ const connectionOptions: ConnectionOptions = {
 const main = async () => {
   const connection = await createConnection(connectionOptions);
   app.use(cors());
+  app.use(helmet());
   app.use(express.json());
   initializeRouter(app);
 
   const testUser = await connection.manager.findOne(User, {
-    login: process.env.TESTUSER_EMAIL
+    login: process.env.TESTUSER_LOGIN
   });
   if (!testUser) {
     const testUserData = await generateUser(
@@ -37,7 +40,8 @@ const main = async () => {
     await connection.manager.save(testUserData);
   }
 
-  app.listen(3000, () => {
+  app.use(express.static('public'));
+  app.listen(process.env.APP_PORT, () => {
     console.log('Listening at localhost:3000');
   });
 };

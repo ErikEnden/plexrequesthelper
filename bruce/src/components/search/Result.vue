@@ -1,7 +1,7 @@
 <template>
   <div class="flex mb-2">
     <div class="flex w-1/12">
-      <img :src="posterUrl" class="rounded shadow" />
+      <img :src="posterUrl" class="poster" />
     </div>
     <div class="flex flex-col w-11/12 pl-3">
       <div class="flex items-center">
@@ -19,7 +19,7 @@
           {{ data.vote_average }}
         </div>
         <a
-          :href="`https://themoviedb.org/movie/${data.id}`"
+          :href="`https://themoviedb.org/${this.mediaType}/${data.id}`"
           class="tmdb-link mr-3"
           target="_blank"
         >
@@ -35,7 +35,7 @@
         <p v-else>Request exists</p>
       </div>
 
-      <p class="mb-2">{{ data.overview }}</p>
+      <p class="mb-2 bg-grey-light rounded p-2">{{ data.overview }}</p>
       <div class="flex items-center" v-if="genreList">
         <div v-for="item in genreList" :key="item" class="genre-tag">
           {{ item }}
@@ -65,6 +65,10 @@ export default {
     exists: {
       type: Boolean,
     },
+    mediaType: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     createRequest() {
@@ -76,9 +80,11 @@ export default {
   },
   computed: {
     title() {
-      return `${this.data.title} (${
+      return `${this.data.title ? this.data.title : this.data.name} (${
         this.data.release_date
           ? this.data.release_date.split("-")[0]
+          : this.data.first_air_date
+          ? this.data.first_air_date.split("-")[0]
           : "No release date"
       })`;
     },
@@ -94,13 +100,15 @@ export default {
       movieGenres: "staticdata/movieGenres",
     }),
     genreList() {
-      if (this.movieGenres) {
+      if (this.mediaType === "movies" && this.movieGenres)
         return this.data.genre_ids.map(
           (x) => this.movieGenres.genres.find((y) => y.id === x).name
         );
-      } else {
-        return [];
-      }
+      if (this.mediaType === "tv" && this.tvGenres)
+        return this.data.genre_ids.map(
+          (x) => this.tvGenres.genres.find((y) => y.id === x).name
+        );
+      return [];
     },
   },
 };
@@ -111,6 +119,6 @@ export default {
   @apply rounded p-1 mx-3 w-8 flex justify-center items-center;
 }
 .genre-tag {
-  @apply rounded bg-accent px-1 mr-2;
+  @apply rounded bg-grey-dark px-1 mr-2;
 }
 </style>

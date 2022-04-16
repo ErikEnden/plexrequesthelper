@@ -3,7 +3,7 @@ import { store } from "@/store/index";
 import Login from "@/views/Login";
 import Search from "@/views/Search";
 import Requests from "@/views/Requests";
-import Settings from "@/views/Settings";
+import Admin from "@/views/Admin";
 import AddUser from "@/views/AddUser";
 
 const routes = [
@@ -32,9 +32,9 @@ const routes = [
     },
   },
   {
-    path: "/settings",
-    name: "Settings",
-    component: Settings,
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
     meta: {
       public: false,
     },

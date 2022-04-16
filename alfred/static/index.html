@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h1>Create admin account</h1>
+        <form>
+            <input type="text" id="name">
+            <input type="text" id="login">
+            <input type="password" id="password">
+            <span id="responseText"></span>
+        </form>
+    </body>
+    <script>
+        const createAdminAccount = () => {
+            let xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) document.getElementById('responseText').innerHTML = xhr.responseText
+            }
+        }
+        
+    </script>
+</html>

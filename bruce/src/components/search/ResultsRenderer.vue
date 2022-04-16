@@ -6,6 +6,7 @@
       :exists="existingRequests.includes(result.id)"
       :data="result"
       :imageConfig="configData"
+      :mediaType="data.mediaType"
     ></result>
   </div>
 </template>

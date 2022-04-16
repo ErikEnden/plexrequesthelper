@@ -1,44 +1,47 @@
 <template>
-  <div class="content-page">
-    <h4 v-if="data" class="mb-2">
-      Searching for {{ $route.query.q }} ({{ data.total_results }} results)
+  <div class="content-page" id="search-results">
+    <h4 v-if="queryResult" class="mb-2">
+      Searching for {{ queryResult.query }} ({{ queryResult.total_results }}
+      results)
     </h4>
     <ResultsRenderer
-      :data="data"
+      v-if="queryResult"
+      :data="queryResult"
       :existingRequests="existingRequests"
-      v-if="data"
     ></ResultsRenderer>
   </div>
 </template>
 <script>
 import axios from "axios";
 import ResultsRenderer from "@/components/search/ResultsRenderer";
+// import { debounce } from "lodash";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      query: "",
-      data: null,
       existingRequests: [],
-      page: 1,
+      contentPane: null,
     };
   },
   mounted() {
+    this.contentPane = document.getElementById("search-results");
     this.retrieveExisting();
-    if (this.$route.query.q) {
-      this.query = this.$route.query.q;
-      this.searchMovies();
-    }
     if (!this.movieGenres) this.$store.dispatch("staticdata/getMovieGenres");
     if (!this.tvGenres) this.$store.dispatch("staticdata/getTVGenres");
+    this.contentPane.addEventListener("scroll", this.handleScroll);
+  },
+  beforeUnmount() {
+    this.contentPane.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    searchMovies() {
-      axios({
-        method: "GET",
-        url: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.VUE_APP_TMDB_KEY}&query=${this.query}&page=${this.page}`,
-      }).then((res) => {
-        this.data = res.data;
-      });
+    handleScroll() {
+      if (
+        this.contentPane.scrollTop ===
+          this.contentPane.scrollHeight - this.contentPane.offsetHeight &&
+        this.queryResult.page < this.queryResult.total_pages
+      ) {
+        this.$store.dispatch("search/executeSearch", this.queryResult.page + 1);
+      }
     },
     retrieveExisting() {
       axios({
@@ -55,14 +58,18 @@ export default {
       );
     },
   },
-  components: { ResultsRenderer },
   watch: {
-    "$route.query.q": {
-      handler(val) {
-        this.query = val;
-        this.searchMovies();
-      },
+    "queryResult.query"() {
+      this.contentPane.scroll(0, 0);
     },
+  },
+  components: { ResultsRenderer },
+  computed: {
+    ...mapGetters({
+      queryResult: "search/queryResult",
+      searchQuery: "search/searchQuery",
+      mediaType: "search/mediaType",
+    }),
   },
 };
 </script>

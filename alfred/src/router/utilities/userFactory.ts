@@ -16,3 +16,19 @@ export const generateUser = async (
 
   return user;
 };
+
+export const generateUserFromRequest = async (
+  name: string,
+  login: string,
+  password: string,
+  isAdmin: boolean
+) => {
+  const user = new User();
+
+  user.name = name;
+  user.login = login;
+  user.password = password;
+  user.is_admin = isAdmin;
+
+  return user;
+};

@@ -41,7 +41,6 @@ requestController.get(
         .createQueryBuilder('mediarequest')
         .where('mediarequest.requester = :user', { user: user.id })
         .getMany();
-      if (!data || data.length === 0) return res.sendStatus(204);
       return res.send({ results: data });
     } else {
       data = await connection.manager
@@ -56,6 +55,7 @@ requestController.get(
         const d2 = DateTime.fromISO(b.created_at).toMillis();
         return d2 - d1;
       });
+
       return res.send({ results: data });
     }
   }

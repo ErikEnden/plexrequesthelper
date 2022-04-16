@@ -7,7 +7,7 @@
             ? request.poster_url
             : `https://via.placeholder.com/130x195`
         "
-        class="rounded shadow"
+        class="poster"
       />
     </div>
     <div class="flex w-11/12 flex-col pl-4">
@@ -22,7 +22,7 @@
           }}</span>
         </div>
       </div>
-      <div class="flex mb-2">
+      <div class="flex mb-2" v-if="request.requester">
         <p>
           Requested by
           <span>{{ request.requester.name }}</span>
@@ -57,7 +57,7 @@
         </button>
         <button
           class="btn btn-danger h-8 w-20"
-          v-if="request.status === 1"
+          v-if="request.status === 1 && user.decoded.isAdmin"
           @click="cancelRequest"
         >
           Cancel

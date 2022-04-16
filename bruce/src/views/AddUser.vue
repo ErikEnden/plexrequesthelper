@@ -48,7 +48,7 @@ export default {
   methods: {
     createUser() {
       this.$store.dispatch("auth/createUser", this.user).then((res) => {
-        if (res.status === 201) this.$router.push("/settings");
+        if (res.status === 201) this.$router.push("/admin");
       });
     },
   },

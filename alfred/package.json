@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^11.0.0",
     "express": "^4.17.2",
+    "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^2.3.0",
     "sqlite3": "^5.0.2",
@@ -25,8 +26,8 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
-    "@types/jsonwebtoken": "^8.5.8",
     "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/luxon": "^2.0.9",
     "@types/node": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
@@ -39,7 +40,13 @@
   },
   "pkg": {
     "outputPath": "../compiled",
-    "targets": ["node14-freebsd-x64", "node14-windows-x64"],
-    "assets": ["node_modules/argon2/lib/binding/napi-v3/argon2.node", "node_modules/sqlite3/lib/binding/napi-v3-win32-x64/node_sqlite3.node"]
+    "targets": [
+      "node14-freebsd-x64",
+      "node14-windows-x64"
+    ],
+    "assets": [
+      "node_modules/argon2/lib/binding/napi-v3/argon2.node",
+      "node_modules/sqlite3/lib/binding/napi-v3-win32-x64/node_sqlite3.node"
+    ]
   }
 }

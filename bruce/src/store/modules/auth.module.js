@@ -60,6 +60,13 @@ export const auth = {
         },
       });
     },
+    requestUser(context, user) {
+      return axios({
+        method: "post",
+        data: user,
+        url: `${process.env.VUE_APP_API_URL}auth/users/requests/new`,
+      });
+    },
     deleteUser(context, userId) {
       return axios({
         method: "post",
@@ -85,6 +92,16 @@ export const auth = {
         method: "post",
         data: userId,
         url: `${process.env.VUE_APP_API_URL}auth/users/reactivate`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+    },
+    processUser(context, data) {
+      return axios({
+        method: "post",
+        data: data,
+        url: `${process.env.VUE_APP_API_URL}auth/users/requests/process`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access")}`,
         },

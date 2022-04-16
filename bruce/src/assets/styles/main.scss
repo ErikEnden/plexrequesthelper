@@ -8,6 +8,7 @@
 @import 'partials/input';
 @import 'partials/transitions';
 @import 'partials/modal';
+@import 'partials/posters';
 
 html {
     @apply bg-grey-dark;
@@ -20,4 +21,7 @@ html {
 }
 ::-webkit-scrollbar-thumb {
     @apply bg-accent rounded-tr rounded-br;
+}
+::-webkit-scrollbar-track {
+    @apply bg-grey-light rounded-r;
 }

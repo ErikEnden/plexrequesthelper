@@ -2,19 +2,31 @@
   <nav>
     <div class="logo">Plex Request Helper</div>
     <div class="search">
+      <button
+        @click="$store.commit('search/toggleMediaType')"
+        class="btn btn-accent w-20 p-2"
+      >
+        {{ mediaType === "movie" ? "Movie" : "TV" }}
+      </button>
       <input
         placeholder="🔎 Search"
-        class="w-96"
-        v-model="searchQuery"
+        class="w-96 mx-2"
+        :value="searchQuery"
+        @input="updateSearchQuery"
         @focus="attachSearchListener"
         @blur="detachSearchListener"
       />
+      <button @click="performSearch" class="btn btn-accent w-20 p-2">
+        Search
+      </button>
     </div>
     <div class="user-icon">
       <div
         class="rounded-full bg-grey-light h-12 w-12 cursor-pointer flex items-center justify-center"
         @click="displayUserMenu = !displayUserMenu"
-      ></div>
+      >
+        {{ user.decoded.name[0] }}
+      </div>
     </div>
     <div class="user-menu" v-if="displayUserMenu">
       <button @click="logout" class="btn btn-danger">Logout</button>
@@ -23,12 +35,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   data() {
     return {
-      searchQuery: "",
       displayUserMenu: false,
     };
   },
@@ -41,8 +52,16 @@ export default {
     },
     keystrokeHandler(e) {
       if (e.keyCode === 13) {
-        this.$router.push(`/search?q=${this.searchQuery}`);
+        this.performSearch();
       }
+    },
+    performSearch() {
+      this.$store.dispatch("search/executeSearch").then(() => {
+        if (this.$route.name !== "Search") this.$router.push("/search");
+      });
+    },
+    updateSearchQuery(e) {
+      this.$store.commit("search/updateSearchQuery", e.target.value);
     },
     logout() {
       this.$store.dispatch("auth/logout").then(() => {
@@ -51,8 +70,12 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      searchQuery: (state) => state.search.searchQuery,
+    }),
     ...mapGetters({
       user: "auth/getUser",
+      mediaType: "search/mediaType",
     }),
   },
 };
